@@ -9,7 +9,7 @@ const Header=()=>{
     <>
         <ThemeProvider theme={theme}>
             <div>
-                헤에더
+               
             </div>
         </ThemeProvider>
     </>
