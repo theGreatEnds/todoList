@@ -3,6 +3,96 @@ import Calendar from 'react-calendar';
 import styled from 'styled-components'
 import 'react-calendar/dist/Calendar.css';
 import moment from 'moment';
+
+const MyCalendar=()=>{
+
+    const [value,setValue]=useState(new Date())
+    const translate=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+    const [day,setDay]=useState(`${moment(value).format("MMDDYYYY")}`)
+    const DataList=[
+        {
+            date:'07232022',
+            data:[{
+                    id: 1,
+                    text: '밥먹기',
+                    done: true
+                },
+                {
+                    id: 2,
+                    text: '운동하기',
+                    done: true
+                }]
+        },
+        {
+            date:'07242022',
+            data:[{
+                    id: 1,
+                    text: '밥먹기',
+                    done: true
+                },
+                {
+                    id: 2,
+                    text: '공부하기',
+                    done: true
+                }]
+        },
+        {
+            date:'07262022',
+            data:[{
+                    id: 1,
+                    text: '감자먹기',
+                    done: true
+                },
+                {
+                    id: 2,
+                    text: '공부하기',
+                    done: true
+                },
+                {
+                    id: 3,
+                    text: '잠자기',
+                    done: true
+                }]
+        }
+    ]
+    
+    const onClickDay=(e)=>{
+        const str = String(e)
+        let [m,d,y]=str.split(' ').slice(1,4)
+        let month = translate.indexOf(m)+1
+        if (String(month).length===1){
+            month=String('0'+month)
+        }
+        const words= String(month+d+y)
+        setDay(words)
+    }
+    const datas = DataList.filter((x)=>x.date===day)
+    
+    
+
+    return(
+    <>
+        {/* 달력 */}
+        <CssCalendar>
+            <Calendar onChange={setValue} value={value} formatDay={(locale, date) => date.toLocaleString("en", {day: "numeric"})}
+                onClickDay={onClickDay}/>
+        </CssCalendar>
+        
+        {/* 날짜(조정가능) + 하는일 */}
+        <div>{day}</div>
+        {datas[0].data.map(ele=>
+            <div key={ele.id}>{ele.text}</div>
+        )}
+
+        {/* 23,24,26일만 데이터 넣어져있는 상태임! => 다른날짜누르면 안나옴 => 누르자마자 할일 비어있는 상태로 만들
+            https://velog.io/@tjdgus0528/React-Native-5x048oii
+            윗글 useState비동기글인데 한번 보면 좋을거같음
+            이상한거나 궁금한거 있으면 얘기해주세요
+        */}
+
+    </>)
+}
+
 const CssCalendar=styled.div`
 .react-calendar { 
     width: 400px;
@@ -94,101 +184,7 @@ const CssCalendar=styled.div`
    }
 `
 
-const MyCalendar=()=>{
 
-    const [value,setValue]=useState(new Date())
-    const translate=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-    const [day,setDay]=useState(`${moment(value).format("MMDDYYYY")}`)
-    const [DataList,setDataList]=useState([
-        {
-            date:'07232022',
-            data:[{
-                    id: 1,
-                    text: '밥먹기',
-                    done: true
-                },
-                {
-                    id: 2,
-                    text: '운동하기',
-                    done: true
-                }]
-        },
-        {
-            date:'07242022',
-            data:[{
-                    id: 1,
-                    text: '밥먹기',
-                    done: true
-                },
-                {
-                    id: 2,
-                    text: '공부하기',
-                    done: true
-                }]
-        }
-    ])
-    const [pick,setPick]=useState([{
-        date:'mmddyyyy',
-        data:[{
-                id: 1,
-                text: '밥먹기',
-                done: true
-            },
-            {
-                id: 2,
-                text: '공부하기',
-                done: true
-            }]
-    }])
-    
-    const onClickDay=(e)=>{
-        const str = String(e)
-        let words =str.split(' ').slice(1,4)
-        let k = translate.indexOf(words[0])+1
-        if (String(k).length===1){
-            k=String('0'+k)
-        }
-        words= String(k+words[1]+words[2])
-        setDay(words)
-        setDataList(DataList.concat({
-            date:`${day}`,
-            data:[{
-                id: 1,
-                text: '밥d먹기',
-                done: true
-            },
-            {
-                id: 2,
-                text: '공부하기',
-                done: true
-            }]
-        }))
-        setPick(DataList.filter(x=>x.date===day))
-        console.log('설정날',day)
-        console.log('추출데이터',pick)
-    }
-    
-
-    //유경님이 수정하실곳
-    const add = ()=>{
-        setDataList(...DataList)
-    }
-    //
-
-    return(
-        <>
-        <CssCalendar>
-            <Calendar onChange={setValue} value={value} formatDay={(locale, date) => date.toLocaleString("en", {day: "numeric"})}
-                onClickDay={onClickDay}/>
-        </CssCalendar>
-        <div className="text-gray-500 mt-4">
-            {moment(value).format("MMDDYYYY")}
-        </div>
-        <div>
-            {day}
-        </div>
-        <button onClick={add}>수정하실곳</button>
-        </>)
-}
 
 export default MyCalendar
+
