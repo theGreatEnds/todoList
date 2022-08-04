@@ -94,8 +94,6 @@ const CssCalendar = styled.div`
 `;
 
 function Calendar({ children }) {
-    return (
-      <CssCalendar>{children}</CssCalendar>
-      );
+    return (<CssCalendar>{children}</CssCalendar> );
   }
 export default Calendar;

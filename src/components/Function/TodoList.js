@@ -4,7 +4,7 @@ import { useTodoState, useTodoDispatch } from "../../Data";
 import {useTodoDay} from "./MyCalendar";
 
 
-const AddDelete = () => {
+const TodoList = () => {
   
   //add & delete
   const DataList = [...(useTodoState())];
@@ -20,20 +20,32 @@ const AddDelete = () => {
       type: "CREATE",
       date: day,
       todo: {
-        id: datas[0].data.length === 0 ? 1 : datas[0].data[datas[0].data.length-1].id+1,
+        id: Math.max.apply(null,datas[0].data.map((e)=>Number(e.id)))+1,
         text: input,
         done: true,
       }});
     setInput("");
   };
-  
+
+  //draggable
+  const [ grab, setGrab ] = useState(null);  
+  const onDragOver = e => {e.preventDefault();}
+  const onDragStart = e => {setGrab(e.target);} 
+  const onDrop = e => {
+      let grabPosition = Number(grab.dataset.position);
+      let targetPosition = Number(e.target.dataset.position);
+      let changedlist = [ ...datas[0].data ];   
+    changedlist[grabPosition] = changedlist.splice(targetPosition, 1, changedlist[grabPosition])[0];  //실패
+    dispatch({ type: 'CHANGE', date: day, list:changedlist});
+  } 
+
   return (
     <>    
       <div>{day}</div>           
-      {datas[0].data.map((ele) => (
-        <div key={ele.id} id={ele.id} onClick={onDelete} draggable>{ele.text} </div>
-      ))} 
-      
+      {datas[0].data.map((ele, index) => (
+        <div onDragOver={onDragOver}  onDragStart={onDragStart} onDrop={onDrop}
+        key={index} id={ele.id} onClick={onDelete} data-position={index} draggable  >{ele.text} </div> ))} 
+
       <form onSubmit={onCreate}> 
           <input onChange={onChange} value={input} autoFocus placeholder="입력 후 enter" />
       </form>
@@ -41,4 +53,4 @@ const AddDelete = () => {
   );
 };
 
-export default AddDelete;
+export default TodoList;

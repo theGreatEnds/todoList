@@ -3,7 +3,7 @@ import Header from "../Layout/Header";
 import Footer from "../Layout/Footer";
 import MyCalendar from "../Function/MyCalendar";
 import { TodoProvider } from "../../Data";
-import AddDelete from "../Function/AddDelete";
+import TodoList from "../Function/TodoList";
 
 const Main = ({children})=>{
     return(
@@ -11,7 +11,7 @@ const Main = ({children})=>{
         <Header/>
         <TodoProvider>
         <MyCalendar>
-        <AddDelete/>
+        <TodoList/>
         </MyCalendar>
         </TodoProvider>
         <Footer/>

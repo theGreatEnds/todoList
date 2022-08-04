@@ -55,18 +55,26 @@ const init = [
          }]
   }
 ]
+
 function todoReducer(state, action) { 
   switch (action.type) {
     case "CREATE":         
     let CREATEState=[...state];
     CREATEState.filter((x)=>x.date===action.date)[0].data=
     CREATEState.filter((x)=>x.date===action.date)[0].data.concat(action.todo);
+    console.log(CREATEState.filter((x)=>x.date===action.date)[0].data);
       return CREATEState;
      case "REMOVE":
       let REMOVEState=[...state];
       REMOVEState.filter((x)=>x.date===action.date)[0].data=
       REMOVEState.filter((x)=>x.date===action.date)[0].data.filter((todo) => todo.id !== Number(action.id));    
+      console.log(REMOVEState.filter((x)=>x.date===action.date)[0].data);
       return REMOVEState;
+      case "CHANGE":
+        let CHANGEState=[...state];
+        CHANGEState.filter((x)=>x.date===action.date)[0].data=action.list;  
+        console.log(CHANGEState.filter((x)=>x.date===action.date)[0].data);
+        return CHANGEState;
     default: 
       throw new Error(`Unhandled action type: ${action.type}`);
   }
