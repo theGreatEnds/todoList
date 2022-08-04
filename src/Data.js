@@ -1,7 +1,7 @@
 import React, {useReducer, createContext, useContext } from "react";
 const init = [
   {
-      date:'07232022',
+      date:'08022022',
       data:[{
               id: 1,
               text: '밥먹기',
@@ -14,7 +14,7 @@ const init = [
           }]
   },
   {
-      date:'07242022',
+      date:'08032022',
       data:[{
               id: 1,
               text: '밥먹기',
@@ -27,7 +27,7 @@ const init = [
           }]
   },
   {
-      date:'07302022',
+      date:'08042022',
       data:[{
               id: 1,
               text: '감자먹기',
