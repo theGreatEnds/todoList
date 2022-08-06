@@ -60,7 +60,6 @@ function todoReducer(state, action) {
   switch (action.type) {
     case "MAKE":
     let OriginState=[...state]
-    console.log(action.date)
     let newState =  OriginState.concat({date:action.date, data:[]})
     console.log(newState)
       return newState 

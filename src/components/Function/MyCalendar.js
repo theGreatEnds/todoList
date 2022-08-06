@@ -29,7 +29,8 @@ const MyCalendar = ({ children }) => {
     setDay(words);
     dispatch({
       type:"MAKE",
-      date:day,
+      date:words,
+      data:[{}]
     })
   };
   
