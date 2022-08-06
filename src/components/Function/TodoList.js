@@ -39,12 +39,10 @@ const TodoList = () => {
     dispatch({ type: 'CHANGE', date: day, list:changedlist});
   }
   
-  const view = ()=>{
-    console.log(day)
-  }
 
   return (
-    <>    
+    <>
+      <div>isfp는 게으르며 누워있는다</div>    
       <div>{day}</div>           
       {datas[0].data.map((ele, index) => (
         <div onDragOver={onDragOver}  onDragStart={onDragStart} onDrop={onDrop}
@@ -53,7 +51,6 @@ const TodoList = () => {
       <form onSubmit={onCreate}> 
           <input onChange={onChange} value={input} autoFocus placeholder="입력 후 enter" />
       </form>
-      <button onClick={view}>변수보기</button>
     </>
   );
 };
