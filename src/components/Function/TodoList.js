@@ -20,7 +20,7 @@ const TodoList = () => {
       type: "CREATE",
       date: day,
       todo: {
-        id: Math.max.apply(null,datas[0].data.map((e)=>Number(e.id)))+1,
+        id: datas[0].data.length===0 ? 1 : Math.max.apply(null,datas[0].data.map((e)=>Number(e.id)))+1,
         text: input,
         done: true,
       }});

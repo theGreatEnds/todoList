@@ -1,6 +1,7 @@
 import React, { useState, useContext, createContext } from "react";
 import Calendar from "react-calendar";
 import CssCalendar from '../Style/CssCalender';
+import { useTodoState } from "../../Data";
 import moment from "moment";
 import { useTodoDispatch } from "../../Data";
 
@@ -19,7 +20,7 @@ const MyCalendar = ({ children }) => {
   const translate = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug",  "Sep", "Oct", "Nov", "Dec"];
   const [day, setDay] = useState(`${moment(value).format("MMDDYYYY")}`);
   const dispatch = useTodoDispatch()
-
+  const DataList = [...(useTodoState())];
   const onClickDay = (e) => {
     const str = String(e);
     let [m, d, y] = str.split(" ").slice(1, 4);
@@ -27,7 +28,7 @@ const MyCalendar = ({ children }) => {
     if (String(month).length === 1) month = String("0" + month);
     const words = String(month + d + y);
     setDay(words);
-    dispatch({
+    if((DataList.map((e)=>e.date)).indexOf(words)===-1)dispatch({
       type:"MAKE",
       date:words,
       data:[{}]
