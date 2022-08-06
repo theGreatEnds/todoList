@@ -37,7 +37,11 @@ const TodoList = () => {
       let changedlist = [ ...datas[0].data ];   
     changedlist[grabPosition] = changedlist.splice(targetPosition, 1, changedlist[grabPosition])[0];  //실패
     dispatch({ type: 'CHANGE', date: day, list:changedlist});
-  } 
+  }
+  
+  const view = ()=>{
+    console.log(day)
+  }
 
   return (
     <>    
@@ -49,6 +53,7 @@ const TodoList = () => {
       <form onSubmit={onCreate}> 
           <input onChange={onChange} value={input} autoFocus placeholder="입력 후 enter" />
       </form>
+      <button onClick={view}>변수보기</button>
     </>
   );
 };

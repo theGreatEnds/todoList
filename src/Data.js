@@ -27,7 +27,7 @@ const init = [
           }]
   },
   {
-      date:'08042022',
+      date:'08062022',
       data:[{
               id: 1,
               text: '감자먹기',
@@ -58,6 +58,12 @@ const init = [
 
 function todoReducer(state, action) { 
   switch (action.type) {
+    case "MAKE":
+    let OriginState=[...state]
+    console.log(action.date)
+    let newState =  OriginState.concat({date:action.date, data:[]})
+    console.log(newState)
+      return newState 
     case "CREATE":         
     let CREATEState=[...state];
     CREATEState.filter((x)=>x.date===action.date)[0].data=
