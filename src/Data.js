@@ -27,7 +27,7 @@ const init = [
           }]
   },
   {
-      date:'08062022',
+      date:'08092022',
       data:[{
               id: 1,
               text: '감자먹기',
@@ -69,17 +69,22 @@ function todoReducer(state, action) {
     CREATEState.filter((x)=>x.date===action.date)[0].data.concat(action.todo);
     console.log(CREATEState.filter((x)=>x.date===action.date)[0].data);
       return CREATEState;
-     case "REMOVE":
-      let REMOVEState=[...state];
-      REMOVEState.filter((x)=>x.date===action.date)[0].data=
-      REMOVEState.filter((x)=>x.date===action.date)[0].data.filter((todo) => todo.id !== Number(action.id));    
-      console.log(REMOVEState.filter((x)=>x.date===action.date)[0].data);
+    case "REMOVE":
+    let REMOVEState=[...state];
+    REMOVEState.filter((x)=>x.date===action.date)[0].data=
+    REMOVEState.filter((x)=>x.date===action.date)[0].data.filter((todo) => todo.id !== Number(action.id));    
+    console.log(REMOVEState.filter((x)=>x.date===action.date)[0].data);
       return REMOVEState;
-      case "CHANGE":
-        let CHANGEState=[...state];
-        CHANGEState.filter((x)=>x.date===action.date)[0].data=action.list;  
-        console.log(CHANGEState.filter((x)=>x.date===action.date)[0].data);
-        return CHANGEState;
+    case "LIST_CHANGE":
+    let CHANGEState=[...state];
+    CHANGEState.filter((x)=>x.date===action.date)[0].data=action.list;  
+    console.log(CHANGEState.filter((x)=>x.date===action.date)[0].data);
+      return CHANGEState;
+    case "DONE_CHANGE":
+    let DONEState=[...state];    
+    DONEState.filter((x)=>x.date===action.date)[0].data[action.id-1].done=
+    !(DONEState.filter((x)=>x.date===action.date)[0].data[action.id-1].done);
+      return DONEState;  
     default: 
       throw new Error(`Unhandled action type: ${action.type}`);
   }

@@ -16,11 +16,13 @@ export function useTodoDay() {
 
 //Calendar
 const MyCalendar = ({ children }) => {
-  const [value, setValue] = useState(new Date());
+ 
   const translate = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug",  "Sep", "Oct", "Nov", "Dec"];
-  const [day, setDay] = useState(`${moment(value).format("MMDDYYYY")}`);
+  const [day, setDay] = useState(`${moment(new Date()).format("MMDDYYYY")}`);
+ 
   const dispatch = useTodoDispatch()
   const DataList = [...(useTodoState())];
+
   const onClickDay = (e) => {
     const str = String(e);
     let [m, d, y] = str.split(" ").slice(1, 4);
@@ -38,10 +40,9 @@ const MyCalendar = ({ children }) => {
   return (
     <>
       <CssCalendar>
-        <Calendar onClickDay={onClickDay} onChange={setValue} value={value}
-        formatDay={(locale, date) => date.toLocaleString("en", { day: "numeric" })} />
+        <Calendar onClickDay={onClickDay}  formatDay={(locale, date) => date.toLocaleString("en", { day: "numeric" })} />
       </CssCalendar>
-
+      
       <Day.Provider value={day}>{children}</Day.Provider>
     </>
   );

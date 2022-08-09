@@ -26,6 +26,8 @@ const TodoList = () => {
       }});
     setInput("");
   };
+  const onDone = (e) => { dispatch({ type: 'DONE_CHANGE', date: day, id:e.target.id});}
+ 
 
   //draggable
   const [ grab, setGrab ] = useState(null);  
@@ -36,17 +38,21 @@ const TodoList = () => {
       let targetPosition = Number(e.target.dataset.position);
       let changedlist = [ ...datas[0].data ];   
     changedlist[grabPosition] = changedlist.splice(targetPosition, 1, changedlist[grabPosition])[0];  //실패
-    dispatch({ type: 'CHANGE', date: day, list:changedlist});
+    dispatch({ type: 'LIST_CHANGE', date: day, list:changedlist});
   }
   
 
   return (
     <>
-      <div>isfp는 게으르며 누워있는다</div>    
       <div>{day}</div>           
       {datas[0].data.map((ele, index) => (
-        <div onDragOver={onDragOver}  onDragStart={onDragStart} onDrop={onDrop}
-        key={index} id={ele.id} onClick={onDelete} data-position={index} draggable  >{ele.text} </div> ))} 
+      <div style={{display:'flex', color:ele.done ? 'red' : 'black'}}>
+        <div onDragOver={onDragOver} onDragStart={onDragStart} onDrop={onDrop}
+        key={index} id={ele.id}  data-position={index} onClick={onDone} draggable >{ele.text} </div> 
+
+        <button id={ele.id} onClick={onDelete} >삭제</button>
+       </div>
+        ))} 
 
       <form onSubmit={onCreate}> 
           <input onChange={onChange} value={input} autoFocus placeholder="입력 후 enter" />
