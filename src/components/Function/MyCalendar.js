@@ -1,9 +1,8 @@
 import React, { useState, useContext, createContext } from "react";
 import Calendar from "react-calendar";
 import CssCalendar from '../Style/CssCalender';
-import { useTodoState } from "../../Data";
+import { useTodoState,useTodoDispatch } from "../../Data";
 import moment from "moment";
-import { useTodoDispatch } from "../../Data";
 
 
 // Day Context
@@ -36,14 +35,37 @@ const MyCalendar = ({ children }) => {
       data:[{}]
     })
   };
-  
+
+  const abc = ()=>{
+    console.log(DataList)
+    const x =DataList.map((e)=>e.data.length)
+    console.log(x)
+    const y =DataList.find((e)=>e.date==='08092022')
+    console.log(y)
+  }
+
   return (
     <>
       <CssCalendar>
-        <Calendar onClickDay={onClickDay}  formatDay={(locale, date) => date.toLocaleString("en", { day: "numeric" })} />
+        <Calendar onClickDay={onClickDay}
+          tileContent={({date,view})=>{
+            let html=[]
+            const x =moment(date).format('MMDDYYYY')
+            const index = DataList.findIndex(e=>e.date===x)
+            if( DataList.find((e)=>e.date===x)){
+              const alldo = DataList[index].data.length
+              const checkdo=DataList[index].data.filter((e)=>e.done===true).length
+              html.push(<div>all:{alldo} x:{checkdo}</div>)
+            }
+            return(
+              <div>{html}</div>
+            )
+          }}
+          formatDay={(locale, date) => date.toLocaleString("en", { day: "numeric" })} />
       </CssCalendar>
-      
+      <button onClick={abc}>dd</button>
       <Day.Provider value={day}>{children}</Day.Provider>
+      {DataList[0].data.length}
     </>
   );
 };
