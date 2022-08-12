@@ -27,7 +27,7 @@ const init = [
           }]
   },
   {
-      date:'08092022',
+      date:'08122022',
       data:[{
               id: 1,
               text: '감자먹기',
@@ -74,13 +74,18 @@ function todoReducer(state, action) {
     REMOVEState.filter((x)=>x.date===action.date)[0].data=
     REMOVEState.filter((x)=>x.date===action.date)[0].data.filter((todo) => todo.id !== Number(action.id));    
     console.log(REMOVEState.filter((x)=>x.date===action.date)[0].data);
-      return REMOVEState;
-    case "LIST_CHANGE":
+      return REMOVEState;    
+    case "MODIFY": //일정 내용 수정
+      let MODIFYState=[...state];
+      MODIFYState.filter((x)=>x.date===action.date)[0].data[action.id-1].text= action.text;
+      console.log(MODIFYState.filter((x)=>x.date===action.date)[0].data);
+        return MODIFYState;
+    case "LIST_CHANGE"://일정 순서 이동
     let CHANGEState=[...state];
     CHANGEState.filter((x)=>x.date===action.date)[0].data=action.list;  
     console.log(CHANGEState.filter((x)=>x.date===action.date)[0].data);
       return CHANGEState;
-    case "DONE_CHANGE":
+    case "DONE_CHANGE"://한 일 체크
     let DONEState=[...state];    
     DONEState.filter((x)=>x.date===action.date)[0].data[action.id-1].done=
     !(DONEState.filter((x)=>x.date===action.date)[0].data[action.id-1].done);
