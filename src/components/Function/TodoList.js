@@ -7,7 +7,7 @@ import moment from "moment";
 
 const TodoList = () => {
   
-  //add & delete
+  //add & delete & done & modify
   const DataList = [...(useTodoState())];
   const day=useTodoDay()
   const datas = DataList.filter((x) => x.date === day);
@@ -34,6 +34,11 @@ const TodoList = () => {
   const onsetText = (e) => { setText(e.target.id); setMInput("");}
   const onModify = (e) => {e.preventDefault(); dispatch({ type: 'MODIFY', date: day, id:e.target.id, text: mInput}); setText(99999);}
   
+
+  //move
+  const onMove = (e) => { dispatch({ type: 'MOVE', date: day, today: `${moment(new Date()).format("MMDDYYYY")}`,id:e.target.id});}
+
+
   //draggable
   const [ grab, setGrab ] = useState(null);  
   const onDragOver = e => {e.preventDefault();}
@@ -64,12 +69,13 @@ const TodoList = () => {
 
         <button id={ele.id} onClick={onDelete} >삭제</button>
         <button id={index} onClick={onsetText} > 수정</button>
+        <button id={ele.id} onClick={onMove} > 오늘로 변경</button>
         </>
         }       
        </div>
         ))} 
 
-      <form onSubmit={onCreate}> 
+      <form  onSubmit={onCreate}> 
           <input onChange={onChange} value={input} autoFocus placeholder="입력 후 enter" />
       </form>
     </>

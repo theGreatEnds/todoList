@@ -27,7 +27,7 @@ const init = [
           }]
   },
   {
-      date:'08102022',
+      date:'08122022',
       data:[{
               id: 1,
               text: '감자먹기',
@@ -90,6 +90,19 @@ function todoReducer(state, action) {
     DONEState.filter((x)=>x.date===action.date)[0].data[action.id-1].done=
     !(DONEState.filter((x)=>x.date===action.date)[0].data[action.id-1].done);
       return DONEState;  
+    case "MOVE"://오늘로 할 일 이동
+      let MOVEState=[...state];
+      const object={...state.filter((x)=>x.date===action.date)[0].data.filter((todo) => todo.id === Number(action.id))[0]};     
+      if(action.date===action.today) return MOVEState;
+    MOVEState.filter((x)=>x.date===action.today)[0].data=MOVEState.filter((x)=>x.date===action.today)[0].data.concat(object); 
+    
+    MOVEState.filter((x)=>x.date===action.date)[0].data.length>1 
+   ?MOVEState.filter((x)=>x.date===action.date)[0].data=MOVEState.filter((x)=>x.date===action.date)[0].data.filter((todo) => todo.id !== Number(action.id))
+   :MOVEState.filter((x)=>x.date===action.date)[0].data=[] 
+   
+    MOVEState.filter((x)=>x.date===action.today)[0].data[MOVEState.filter((x)=>x.date===action.today)[0].data.length-1].id=
+    MOVEState.filter((x)=>x.date===action.today)[0].data.length===0 ? 1 : Math.max.apply(null,MOVEState.filter((x)=>x.date===action.today)[0].data.map((e)=>Number(e.id)))+1; //수정
+      return MOVEState;
     default: 
       throw new Error(`Unhandled action type: ${action.type}`);
   }

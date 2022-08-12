@@ -57,7 +57,8 @@ const MyCalendar = ({ children }) => {
               html.push(<div>all:{alldo} x:{checkdo}</div>)
             }
             return(
-              <div>{html}</div>
+              // <div>{html}</div> 나 에러 보기 편하려고 잠깐 지운거예요
+              <></>
             )
           }}
           formatDay={(locale, date) => date.toLocaleString("en", { day: "numeric" })} />
