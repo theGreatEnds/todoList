@@ -25,7 +25,7 @@ const TodoList = () => {
       todo: {
         id: datas[0].data.length===0 ? 1 : Math.max.apply(null,datas[0].data.map((e)=>Number(e.id)))+1,
         text: input,
-        done: true,
+        done: false,
       }});
     setInput("");
   };
@@ -45,8 +45,13 @@ const TodoList = () => {
     changedlist[grabPosition] = changedlist.splice(targetPosition, 1, changedlist[grabPosition])[0];  //실패
     dispatch({ type: 'LIST_CHANGE', date: day, list:changedlist});
   }
+
+
+  
+  
   return (
-    <>
+    
+    <> 
       <div>{day}</div>           
       {datas[0].data.map((ele, index) => (
       <div key={index} style={{display:'flex', color:ele.done ? 'red' : 'black'}}>
