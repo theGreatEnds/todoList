@@ -1,4 +1,4 @@
-import React, {useReducer, createContext, useContext } from "react";
+import React, {useReducer,useState, createContext, useContext } from "react";
 const init = [
   {
       date:'08022022',
@@ -27,7 +27,7 @@ const init = [
           }]
   },
   {
-      date:'08122022',
+      date:'08132022',
       data:[{
               id: 1,
               text: '감자먹기',
@@ -90,19 +90,15 @@ function todoReducer(state, action) {
     DONEState.filter((x)=>x.date===action.date)[0].data[action.id-1].done=
     !(DONEState.filter((x)=>x.date===action.date)[0].data[action.id-1].done);
       return DONEState;  
-    case "MOVE"://오늘로 할 일 이동
+    case "MOVE"://할 일 이동
       let MOVEState=[...state];
       const object={...state.filter((x)=>x.date===action.date)[0].data.filter((todo) => todo.id === Number(action.id))[0]};     
-      if(action.date===action.today) return MOVEState;
-    MOVEState.filter((x)=>x.date===action.today)[0].data=MOVEState.filter((x)=>x.date===action.today)[0].data.concat(object); 
-    
-    MOVEState.filter((x)=>x.date===action.date)[0].data.length>1 
-   ?MOVEState.filter((x)=>x.date===action.date)[0].data=MOVEState.filter((x)=>x.date===action.date)[0].data.filter((todo) => todo.id !== Number(action.id))
-   :MOVEState.filter((x)=>x.date===action.date)[0].data=[] 
-   
-    MOVEState.filter((x)=>x.date===action.today)[0].data[MOVEState.filter((x)=>x.date===action.today)[0].data.length-1].id=
-    MOVEState.filter((x)=>x.date===action.today)[0].data.length===0 ? 1 : Math.max.apply(null,MOVEState.filter((x)=>x.date===action.today)[0].data.map((e)=>Number(e.id)))+1; //수정
-      return MOVEState;
+      if(action.date===action.moveday) return MOVEState; 
+    MOVEState.filter((x)=>x.date===action.moveday)[0].data=MOVEState.filter((x)=>x.date===action.moveday)[0].data.concat(object);
+    MOVEState.filter((x)=>x.date===action.date)[0].data=MOVEState.filter((x)=>x.date===action.date)[0].data.filter((todo) => todo.id !== Number(action.id))   
+    MOVEState.filter((x)=>x.date===action.moveday)[0].data[MOVEState.filter((x)=>x.date===action.moveday)[0].data.length-1].id=
+    MOVEState.filter((x)=>x.date===action.moveday)[0].data.length===1 ? 1 : Math.max.apply(null,MOVEState.filter((x)=>x.date===action.moveday)[0].data.map((e)=>Number(e.id)))+1;
+    return MOVEState;
     default: 
       throw new Error(`Unhandled action type: ${action.type}`);
   }
@@ -110,12 +106,19 @@ function todoReducer(state, action) {
 
 const State = createContext();
 const Dispatch = createContext();
+const Show = createContext();
+const SetShow = createContext();
 export function TodoProvider({ children }) {  
   const [state, dispatch] = useReducer(todoReducer, init);
+  const [show, setShow] = useState(1);
   return (
     <State.Provider value={state}>
       <Dispatch.Provider value={dispatch}>
+      <Show.Provider value={show}>
+       <SetShow.Provider value={setShow}>
           {children}
+       </SetShow.Provider>  
+      </Show.Provider>  
       </Dispatch.Provider>  
      </State.Provider>
   );
@@ -128,6 +131,16 @@ export function useTodoState() {
 }
 export function useTodoDispatch() {
   const context = useContext(Dispatch);
+  if (!context) throw new Error("Cannot find TodoProvider");
+  return context;
+}
+export function useShowState() {
+  const context = useContext(Show);  
+  if (!context) throw new Error("Cannot find TodoProvider");
+  return context;
+}
+export function useSetShow() {
+  const context = useContext(SetShow);
   if (!context) throw new Error("Cannot find TodoProvider");
   return context;
 }

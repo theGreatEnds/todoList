@@ -1,7 +1,7 @@
 import React, { useState, useContext, createContext } from "react";
 import Calendar from "react-calendar";
 import CssCalendar from '../Style/CssCalender';
-import { useTodoState,useTodoDispatch } from "../../Data";
+import {useShowState, useTodoState,useTodoDispatch,useSetShow } from "../../Data";
 import moment from "moment";
 
 
@@ -12,14 +12,22 @@ export function useTodoDay() {
   if (!context) throw new Error("Cannot find TodoProvider");
   return context;
 }
+const MoveDay = createContext();
+export function useMoveDay() {
+  const context = useContext(MoveDay); 
+  if (!context) throw new Error("Cannot find TodoProvider");
+  return context;
+}
 
 //Calendar
 const MyCalendar = ({ children }) => {
   const translate = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug",  "Sep", "Oct", "Nov", "Dec"];
   const [day, setDay] = useState(`${moment(new Date()).format("MMDDYYYY")}`);
- 
+  const [moveDay, setmoveDay] =useState(999);
   const dispatch = useTodoDispatch()
   const DataList = [...(useTodoState())];
+  const show=useShowState();
+  const SetShow=useSetShow();
 
   const onClickDay = (e) => {
     const str = String(e);
@@ -34,6 +42,9 @@ const MyCalendar = ({ children }) => {
       data:[{}]
     })
   };
+  const onClick = (e) => {
+    setmoveDay(e);
+    SetShow(1);}
 
   const abc = ()=>{
     console.log(DataList)
@@ -46,7 +57,7 @@ const MyCalendar = ({ children }) => {
   return (
     <>
       <CssCalendar>
-        <Calendar onClickDay={onClickDay}
+       { show===2 ? <Calendar onClickDay={onClick}/>:<Calendar onClickDay={onClickDay}
           tileContent={({date,view})=>{
             let html=[]
             const x =moment(date).format('MMDDYYYY')
@@ -62,9 +73,15 @@ const MyCalendar = ({ children }) => {
             )
           }}
           formatDay={(locale, date) => date.toLocaleString("en", { day: "numeric" })} />
-      </CssCalendar>
+        }</CssCalendar>
       <button onClick={abc}>dd</button>
-      <Day.Provider value={day}>{children}</Day.Provider>
+
+      
+      <MoveDay.Provider value={moveDay}>     
+       <Day.Provider value={day}>
+        {children}
+       </Day.Provider>
+      </MoveDay.Provider>
       {DataList[0].data.length}
     </>
   );
