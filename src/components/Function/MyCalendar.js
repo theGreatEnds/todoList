@@ -42,10 +42,7 @@ const MyCalendar = ({ children }) => {
       data:[{}]
     })
   };
-  const onClick = (e) => {
-    setmoveDay(e);
-    SetShow(1);}
-
+  const onClick = (e) => {setmoveDay(e); SetShow(1);}
   const abc = ()=>{
     console.log(DataList)
     const x =DataList.map((e)=>e.data.length)
