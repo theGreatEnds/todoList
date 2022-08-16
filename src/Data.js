@@ -27,7 +27,7 @@ const init = [
           }]
   },
   {
-      date:'08142022',
+      date:'08162022',
       data:[{
               id: 1,
               text: '감자먹기',
