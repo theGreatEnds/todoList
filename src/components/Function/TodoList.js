@@ -1,4 +1,4 @@
-import React, { useState, useEffect ,useRef} from "react";
+import React, { useState, useEffect } from "react";
 import "react-calendar/dist/Calendar.css";
 import { useTodoState, useTodoDispatch, useSetShow } from "../../Data";
 import {useMoveDay, useTodoDay} from "./MyCalendar";
@@ -66,7 +66,7 @@ function TodoList() {
       <div>{day}</div>           
       {datas[0].data.map((ele, index) => (
       <div key={index} style={{display:'flex', color:ele.done ? 'red' : 'black'}}>
-       { inputText==index
+       { inputText===index
         ? <form  id={ele.id} onSubmit={onModify}><input onChange={onMChange} autoFocus/></form>
         :  
         <>

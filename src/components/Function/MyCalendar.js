@@ -43,13 +43,7 @@ const MyCalendar = ({ children }) => {
     })
   };
   const onClick = (e) => {setmoveDay(e); SetShow(1);}
-  const abc = ()=>{
-    console.log(DataList)
-    const x =DataList.map((e)=>e.data.length)
-    console.log(x)
-    const y =DataList.find((e)=>e.date==='08092022')
-    console.log(y)
-  }
+  
 
   return (
     <>
@@ -62,16 +56,28 @@ const MyCalendar = ({ children }) => {
             if( DataList.find((e)=>e.date===x)){
               const alldo = DataList[index].data.length
               const checkdo=DataList[index].data.filter((e)=>e.done===true).length
-              html.push(<div>all:{alldo} x:{checkdo}</div>)
+              alldo===checkdo && alldo !==0?
+              html.push(
+                <>
+                <span className="checkmark">
+                <div className="checkmark_stem"></div>
+                <div className="checkmark_kick"></div>
+                </span></>):
+              html.push(
+              <>
+              <span>
+                {alldo-checkdo}
+              </span>
+              </>)
             }
             return(
-              // <div>{html}</div> 나 에러 보기 편하려고 잠깐 지운거예요
-              <></>
+              <>
+              <div>{html}</div>
+              </>
             )
           }}
           formatDay={(locale, date) => date.toLocaleString("en", { day: "numeric" })} />
         }</CssCalendar>
-      <button onClick={abc}>dd</button>
 
       
       <MoveDay.Provider value={moveDay}>     
