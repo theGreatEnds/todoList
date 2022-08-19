@@ -12,9 +12,16 @@ const flexLeft = css`
   align-items: center;
 `;
 
+const divCenter = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const flexMode={
   flexCenter,
-  flexLeft
+  flexLeft,
+  divCenter
 }
 
 export default flexMode

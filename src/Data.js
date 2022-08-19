@@ -1,4 +1,6 @@
 import React, {useReducer,useState, createContext, useContext } from "react";
+import moment from "moment";
+
 const init = [
   {
       date:'08022022',
@@ -27,7 +29,7 @@ const init = [
           }]
   },
   {
-      date:'08162022',
+      date:`${moment(new Date()).format("MMDDYYYY")}`,
       data:[{
               id: 1,
               text: '감자먹기',

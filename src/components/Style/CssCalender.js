@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import theme from "./Theme";
 import "react-calendar/dist/Calendar.css";
 
 const CssCalendar = styled.div`
   .react-calendar {
+    margin: 0 auto;
     width: 400px;
     max-width: 100%;
     background-color: #fff;
@@ -91,6 +93,41 @@ const CssCalendar = styled.div`
     background: #6f48eb;
     color: white;
   }
+
+  ${theme.device.pc}{
+    .react-calendar {
+      margin-top:15vh;
+      height:70vh;
+      min-height:600px;
+    }
+  }
+
+  .checkmark {
+    display:inline-block;
+    width: 22px;
+    height:22px;
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+}
+
+.checkmark_stem {
+    position: absolute;
+    width:3px;
+    height:9px;
+    background-color:blue;
+    left:11px;
+    top:6px;
+}
+
+.checkmark_kick {
+    position: absolute;
+    width:3px;
+    height:3px;
+    background-color:blue;
+    left:8px;
+    top:12px;
+}
 `;
 
 function Calendar({ children }) {
