@@ -3,8 +3,8 @@ import Calendar from "react-calendar";
 import CssCalendar from '../Style/CssCalender';
 import {useShowState, useTodoState,useTodoDispatch,useSetShow } from "../../Data";
 import moment from "moment";
-
-
+import { GrClose } from "react-icons/gr";
+import { FaCheck } from "react-icons/fa";
 // Day Context
 const Day = createContext();
 export function useTodoDay() {
@@ -57,18 +57,8 @@ const MyCalendar = ({ children }) => {
               const alldo = DataList[index].data.length
               const checkdo=DataList[index].data.filter((e)=>e.done===true).length
               alldo===checkdo && alldo !==0?
-              html.push(
-                <>
-                <span className="checkmark">
-                <div className="checkmark_stem"></div>
-                <div className="checkmark_kick"></div>
-                </span></>):
-              html.push(
-              <>
-              <span>
-                {alldo-checkdo}
-              </span>
-              </>)
+              html.push(<FaCheck className="point"/>)
+              :html.push(<GrClose className="point2"/>)
             }
             return(
               <>

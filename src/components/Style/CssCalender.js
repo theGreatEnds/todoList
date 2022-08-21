@@ -6,8 +6,10 @@ import "react-calendar/dist/Calendar.css";
 const CssCalendar = styled.div`
   .react-calendar {
     margin: 0 auto;
-    width: 400px;
+    width: 80vw;
     max-width: 100%;
+    height:50vh;
+    min-height:300px;
     background-color: #fff;
     color: #222;
     border-radius: 8px;
@@ -15,6 +17,7 @@ const CssCalendar = styled.div`
     font-family: Arial, Helvetica, sans-serif;
     line-height: 1.125em;
   }
+  
   .react-calendar__navigation button {
     color: #6f48eb;
     min-width: 44px;
@@ -46,6 +49,17 @@ const CssCalendar = styled.div`
     border-radius: 6px;
     font-weight: bold;
     color: #6f48eb;
+  }
+  .react-calendar__month-view__days__day{
+    position:relative;
+    height:6vh;
+    min-height:30px;
+    abbr{
+      position:absolute;
+      top:0px;
+      transform:translateX(-50%);
+      width:100%;
+    }
   }
   .react-calendar__tile--now:enabled:hover,
   .react-calendar__tile--now:enabled:focus {
@@ -96,37 +110,42 @@ const CssCalendar = styled.div`
 
   ${theme.device.pc}{
     .react-calendar {
-      margin-top:15vh;
-      height:70vh;
+      margin-top:10vh;
+      height:80vh;
       min-height:600px;
+      width:40vw;
+      min-width:600px;
+    }
+    .react-calendar__navigation{
+      height:10vh;
+      min-height:60px;
+    }
+    .react-calendar__month-view__weekdays{
+      height:5vh;
+      min-height:30px;
+    }
+    .react-calendar__navigation__label__labelText{
+      font-size:32px;
+    }
+    .react-calendar__month-view__days__day{
+      position:relative;
+      height:10vh;
+      min-height:60px;
+      abbr{
+        position:absolute;
+        top:0px;
+        transform:translateX(-50%);
+        width:100%;
+      }
     }
   }
 
-  .checkmark {
-    display:inline-block;
-    width: 22px;
-    height:22px;
-    -ms-transform: rotate(45deg); /* IE 9 */
-    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
-    transform: rotate(45deg);
+ 
+.point{
+  color:blue;
 }
-
-.checkmark_stem {
-    position: absolute;
-    width:3px;
-    height:9px;
-    background-color:blue;
-    left:11px;
-    top:6px;
-}
-
-.checkmark_kick {
-    position: absolute;
-    width:3px;
-    height:3px;
-    background-color:blue;
-    left:8px;
-    top:12px;
+.point2{
+  color:red;
 }
 `;
 
