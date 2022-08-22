@@ -1,10 +1,9 @@
 import React, { useState} from "react";
 import {useTodoState, useTodoDispatch } from "../../Data";
 import {useTodoDay} from "./MyCalendar";
+import {useAdd} from "./TodoList";
+import '../Style/todoCss.css';
 
-
-//비동기로 발생하는 id 오류 수정하기
-//날짜 계산 기능 추가하기
 function Create() {
   const dispatch = useTodoDispatch();  
   const day=useTodoDay();
@@ -34,20 +33,21 @@ function Create() {
 
   //option
   const array=[]
-  const [loop, setLoop]=useState("day")
+  const [addOtpion,setAddOtpion]=useState(false);
+  const [loop, setLoop]=useState("D")
   const onPeriod = (e) => setPeriod(Number(e.target.value));
   const [period, setPeriod] = useState(1);
   const onCount = (e) => setCount(e.target.value);
   const [count, setCount] = useState(1);
-
+  const setAdd = useAdd();
   async function option (e) {
     e.preventDefault();  
    let start=(day.substr(2,2))
    let p=period;
    switch(loop){
-    case "day": break;
-    case "week": p*=7; break;
-    case "month": start=(day.substr(0,2)); break;
+    case "D": break;
+    case "W": p*=7; break;
+    case "M": start=(day.substr(0,2)); break;
     default: throw new Error(`Unhandled action type`)
     }
     for(let i= Number(start); i<Number(start)+(count*p); i++) {
@@ -60,6 +60,7 @@ function Create() {
      setPeriod(1)
      setCount(1)
      setInput("")
+     setAdd();
   };
 
   //checkbox
@@ -68,24 +69,27 @@ function Create() {
     for (let i = 0; i < ones.length; i++) 
        if (ones[i] !== one) ones[i].checked = false
   }  
-  function Value (e) { e.target.checked ? setLoop(e.target.value) :  setLoop('day') }
+  function Value (e) { e.target.checked ? setLoop(e.target.value) :  setLoop('D') }
 
   return (
     <>
-       <form onSubmit={option}> 
-          <input onChange={onChange} value={input} autoFocus placeholder="입력 후 enter" />       
+      <form onSubmit={option} > 
+          <input className="input" onChange={onChange} value={input} autoFocus placeholder="추가할 할 일을 입력해 주세요" />    
+          <img style={{width:'40px'}} onClick={setAddOtpion} src="../../img/option.png"alt='opiton'/>   
       </form>
-      <div>
-            <input type={"checkbox"} name="loop" onChange={(e) => One(e.target)} value='day' onClick={(e)=>Value(e)}/>
-            <span>매일 반복</span>
-            <input type={"checkbox"} name="loop" onChange={(e) => One(e.target)} value='week' onClick={(e)=>Value(e)} />
-            <span>매주 반복</span>
-            <input type={"checkbox"} name="loop" onChange={(e) => One(e.target)} value='month' onClick={(e)=>Value(e)}/>
+      {addOtpion ?
+        <div style={{marginTop:'5%'}}>
+            <input type={"checkbox"} name="loop" onChange={(e) => One(e.target)} value='D' onClick={(e)=>Value(e)}/>
+            <span className="marginR5">매일 반복</span>
+            <input type={"checkbox"} name="loop" onChange={(e) => One(e.target)} value='W' onClick={(e)=>Value(e)} />
+            <span className="marginR5">매주 반복</span>
+            <input type={"checkbox"} name="loop" onChange={(e) => One(e.target)} value='M' onClick={(e)=>Value(e)}/>
             <span>매월 반복</span>
 
-            <br/>반복 횟수 : <input onChange={onCount} value={count}  autoFocus placeholder="횟수" />회 
-            <br/>반복 주기 : <input onChange={onPeriod} value={period}  autoFocus placeholder="주기" />{loop}
-      </div>
+            <br/>반복 횟수 : <input className="input" onChange={onCount} value={count}  autoFocus placeholder="횟수" />회 
+            <br/>반복 주기 : <input className="input" onChange={onPeriod} value={period}  autoFocus placeholder="주기" />{loop}
+      </div> 
+      :null}
     </>
   );
 }

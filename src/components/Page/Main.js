@@ -4,9 +4,12 @@ import { TodoProvider } from "../../Data";
 import TodoList from "../Function/TodoList";
 import Create from "../Function/Create";
 import styled from "styled-components";
-import theme from "../Style/Theme"
-import flexMode from '../Style/OftenStyle'
+import theme from "../Style/Theme";
+import flexMode from '../Style/OftenStyle';
 
+const Flex=styled.div`
+display:flex;
+`
 
 const Main = ({children})=>{
 
@@ -14,10 +17,11 @@ const Main = ({children})=>{
     <>
         <TodoProvider>
             <MainStyle>
+            <Flex>
             <MyCalendar  >
-            <TodoList  />
-            <Create/>
+            <TodoList  />           
             </MyCalendar>
+            </Flex>
             </MainStyle>
         </TodoProvider>
 
